@@ -4,10 +4,11 @@
  *
  * @file    Palindrominator.cpp
  * @authors Jim Daehn <jdaehn@missouristate.edu>
- * // TODO: Add your name here
+ *          Dalton McCart <mccart.42@live.missouristate.edu>
  */
 
 #include <stack>   // Provides access to std::stack<T> where T is the template parameter, e.g., char
+#include <queue>
 #include <sstream> // Provides access to std::stringstream which may be useful in the reverse helper operation
 #include "Palindrominator.h"
 
@@ -16,15 +17,60 @@ Palindrominator::Palindrominator(bool append) : append_{append} {
 }
 
 bool Palindrominator::isPalindrome(const std::string &text) const {
-    // TODO: Implement me; you must use a stack and a queue
     // Hint: See the pseudocode on page 398
-    return false;
+    std::queue <char> palQueue;
+    std::stack <char> palStack;
+    int stringLength = text.length();
+
+    for (int i = 0; i < stringLength; i++){
+        palQueue.push(text[i]);
+        palStack.push(text[i]);
+    }
+
+    while (!palQueue.empty()){
+        if (palStack.top() == palQueue.front()){
+            palStack.pop();
+            palQueue.pop();
+        }
+        else {
+            return false;
+        }
+    }
+
+    return true;
 }
 
 std::string Palindrominator::makePalindrome(const std::string &text) const {
-    // TODO: Implement me; hint... See the PalindrominatroUnitTest::reverse() method for an easy way to reverse
     // the contents of a string. Be sure to read up on std::reverse() found in the algorithm library before
     // attempting to emulate that functionality here.
     // See the header file doxygen comments for more details about the parameter and behavior of this method
-    return std::string{};
+
+    std::stack<char> reverseString;
+    std::string newString = text;
+
+    for (auto x : text){
+        reverseString.push(x);
+    }
+
+    if (append_){  //append reverse
+
+       while (!reverseString.empty()){
+           newString += reverseString.top();
+           reverseString.pop();
+
+       }
+    }
+
+   else {   //prepend reverse
+
+       newString = {};
+        while (!reverseString.empty()){
+            newString += + reverseString.top();
+            reverseString.pop();
+        }
+        newString += text;
+
+
+   }
+    return newString;
 }

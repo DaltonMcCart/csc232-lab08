@@ -9,7 +9,9 @@
 #include <cstdlib>
 #include <iostream>
 #include <string>
+#include <memory>
 #include "Palindrominator.h"
+
 
 const bool PREPEND_FLAG{false};
 
